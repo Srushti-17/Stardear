@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>stardear</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;image-rendering:pixelated}
+:root{--dark:#3b2f4a;--mid:#7c5c8a;--lav:#c9a9d4;--sage:#a8c5a0;--cream:#f5ede0}
+html,body{height:100%;background:var(--cream);font-family:"Press Start 2P",monospace;color:var(--dark);overflow-x:hidden;max-width:100vw}
+body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(59,47,74,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(59,47,74,.03) 1px,transparent 1px);background-size:4px 4px;pointer-events:none;z-index:999}
+.screen{display:none;min-height:100vh;flex-direction:column;align-items:center}
+.screen.active{display:flex;animation:fadeIn .3s steps(6) both}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#s1{justify-content:center;text-align:center;padding:60px 28px}
+.pixel-logo{margin-bottom:32px}
+.brand{font-family:"Press Start 2P",monospace;font-size:28px;color:var(--dark);line-height:1.4;letter-spacing:2px;text-shadow:4px 4px 0 var(--lav)}
+.brand span{color:var(--mid)}
+.tagline{font-family:"VT323",monospace;font-size:18px;letter-spacing:3px;text-transform:uppercase;color:var(--mid);margin:24px 0 56px}
+.btn-p{background:var(--dark);color:var(--cream);border:none;padding:18px 40px;font-family:"Press Start 2P",monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-right:4px solid #1a1020;border-bottom:4px solid #1a1020;border-left:4px solid #6b5878;border-top:4px solid #6b5878;transition:all .08s steps(1)}
+.btn-p:hover{background:var(--mid);transform:translate(1px,1px);border-right:3px solid #1a1020;border-bottom:3px solid #1a1020}
+.btn-p:active{transform:translate(4px,4px);border-right:0;border-bottom:0;border-left:4px solid #1a1020;border-top:4px solid #1a1020}
+#s2{padding:48px 24px 40px}
+.step-hint{font-family:"VT323",monospace;font-size:16px;letter-spacing:3px;text-transform:uppercase;color:var(--lav);text-align:center;margin-bottom:8px}
+.step-h{font-family:"Press Start 2P",monospace;font-size:14px;color:var(--dark);text-align:center;margin-bottom:36px;text-shadow:3px 3px 0 var(--lav);line-height:1.6}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:540px;width:100%;margin-bottom:32px}
+.card{border:3px solid var(--dark);box-shadow:4px 4px 0 var(--dark);cursor:pointer;transition:all .08s steps(1);background:#fff9f4;overflow:hidden}
+.card:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--dark)}
+.card.sel{border-color:var(--mid);box-shadow:4px 4px 0 var(--mid)}
+.card.sel:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--mid)}
+.card-thumb{width:100%;height:110px;object-fit:cover;display:block;image-rendering:pixelated}
+.card-lbl{font-family:"Press Start 2P",monospace;font-size:6px;letter-spacing:1px;text-transform:uppercase;color:var(--dark);text-align:center;padding:10px 6px}
+.btn-n{background:var(--dark);color:var(--cream);border:none;padding:17px 40px;font-family:"Press Start 2P",monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;opacity:.3;pointer-events:none;border-right:4px solid #1a1020;border-bottom:4px solid #1a1020;border-left:4px solid #6b5878;border-top:4px solid #6b5878;transition:all .08s steps(1)}
+.btn-n.on{opacity:1;pointer-events:all}
+.btn-n.on:hover{background:var(--mid);transform:translate(1px,1px);border-right:3px solid #1a1020;border-bottom:3px solid #1a1020}
+.btn-n.on:active{transform:translate(4px,4px);border-right:0;border-bottom:0}
+#s3{padding:56px 28px}
+.form-w{max-width:460px;width:100%}
+.f-lbl{font-family:"Press Start 2P",monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--mid);display:block;margin-bottom:10px}
+.f-in{width:100%;border:none;border-bottom:3px solid var(--dark);background:transparent;font-family:"VT323",monospace;font-size:28px;color:var(--dark);padding:6px 0 10px;outline:none;margin-bottom:40px}
+.f-in:focus{border-color:var(--mid);outline:3px solid var(--lav);outline-offset:2px}
+.f-ta{width:100%;border:3px solid var(--dark);background:transparent;font-family:"VT323",monospace;font-size:24px;color:var(--dark);padding:16px 18px;outline:none;resize:none;height:160px;line-height:1.6;margin-bottom:40px;display:block;box-shadow:4px 4px 0 var(--dark)}
+.f-ta:focus{border-color:var(--mid);box-shadow:4px 4px 0 var(--mid);outline:none}
+.btn-p2{width:100%;background:var(--dark);color:var(--cream);border:none;padding:18px;font-family:"Press Start 2P",monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-right:4px solid #1a1020;border-bottom:4px solid #1a1020;border-left:4px solid #6b5878;border-top:4px solid #6b5878;transition:all .08s steps(1)}
+.btn-p2:hover{background:var(--mid);transform:translate(1px,1px)}
+.btn-p2:active{transform:translate(4px,4px);border-right:0;border-bottom:0}
+#s4{position:relative;justify-content:flex-end;overflow:hidden;padding:0;min-height:100vh}
+#s4::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.04) 0px,rgba(0,0,0,.04) 2px,transparent 2px,transparent 4px);pointer-events:none;z-index:3}
+.scene-wrap{position:absolute;inset:0;width:100%;height:100%}
+.scene-bg{width:100%;height:100%;object-fit:cover;image-rendering:pixelated;display:block}
+.couple-img{position:absolute;bottom:56px;left:50%;transform:translateX(-50%);width:200px;height:auto;image-rendering:pixelated;z-index:2}
+.sky-msg{position:absolute;top:9%;left:50%;transform:translateX(-50%);text-align:center;width:85%;z-index:4;animation:pixelIn .5s steps(8) .6s both}
+@keyframes pixelIn{from{opacity:0;transform:translateX(-50%) translateY(-16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.rv-to{font-family:"Press Start 2P",monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--lav);margin-bottom:14px;text-shadow:2px 2px 0 rgba(0,0,0,.5)}
+.rv-msg{font-family:"VT323",monospace;font-size:26px;color:#fff;line-height:1.6;text-shadow:2px 2px 0 rgba(0,0,0,.8),3px 3px 0 rgba(59,47,74,.5)}
+.bot-bar{position:relative;z-index:5;width:100%;padding:24px 20px;text-align:center;background:linear-gradient(transparent,rgba(27,15,40,.92))}
+.btn-shr{background:var(--lav);color:var(--dark);border:none;padding:14px 36px;font-family:"Press Start 2P",monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:block;margin:0 auto 16px;border-right:4px solid #5a3a6a;border-bottom:4px solid #5a3a6a;border-left:4px solid #e8d0f0;border-top:4px solid #e8d0f0;transition:all .08s steps(1)}
+.btn-shr:hover{transform:translate(1px,1px);border-right:3px solid #5a3a6a;border-bottom:3px solid #5a3a6a}
+.btn-shr:active{transform:translate(4px,4px);border-right:0;border-bottom:0}
+.btn-rst{font-family:"Press Start 2P",monospace;font-size:6px;letter-spacing:1px;color:var(--lav);cursor:pointer;text-decoration:underline;text-transform:uppercase;opacity:.65;background:none;border:none;display:block;margin:0 auto}
+.btn-rst:hover{opacity:1}
+.btn-back{font-family:"Press Start 2P",monospace;font-size:7px;letter-spacing:1px;color:var(--lav);cursor:pointer;text-decoration:underline;text-transform:uppercase;background:none;border:none;display:block;margin:8px auto}
+#toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:8px 14px;border-radius:6px;font-family:VT323,monospace;font-size:14px;z-index:9999;opacity:0;transition:opacity .2s}
+</style>
+</head>
+<body>
+
+<!-- Screen 1 -->
+<div id="s1" class="screen active">
+  <div class="pixel-logo">...</div>
+  <div class="brand">star<span>dear</span></div>
+  <div class="tagline">send a sky to someone you love</div>
+  <button class="btn-p" onclick="go(2)">[ begin ]</button>
+</div>
+
+<!-- Screen 2 -->
+<div id="s2" class="screen">
+  <div class="step-hint">&gt; step 1 of 2</div>
+  <div class="step-h">choose<br/>your sky</div>
+  <div class="grid" id="grid"></div>
+  <button class="btn-n" id="btnN" onclick="go(3)">[ continue ]</button>
+</div>
+
+<!-- Screen 3 -->
+<div id="s3" class="screen">
+  <div class="step-hint" style="margin-bottom:8px">&gt; step 2 of 2</div>
+  <div class="step-h" style="margin-bottom:36px">write<br/>your heart</div>
+  <div class="form-w">
+    <label class="f-lbl">// to</label>
+    <input class="f-in" id="iTo" type="text" placeholder="their name..."/>
+    <label class="f-lbl">// message</label>
+    <textarea class="f-ta" id="iMsg" placeholder="what do you want them to feel..."></textarea>
+    <button class="btn-back" onclick="go(2)">&lt; back</button>
+    <button class="btn-p2" onclick="reveal()">[ see the sky ] &gt;</button>
+  </div>
+</div>
+
+<!-- Screen 4 -->
+<div id="s4" class="screen">
+  <div class="scene-wrap">
+    <img id="scene-img" class="scene-bg" src="" alt="scene"/>
+    <img id="couple-img" class="couple-img" src="sitting-removebg-preview.png" alt="couple"/>
+  </div>
+  <div class="sky-msg">
+    <div class="rv-to" id="rvTo"></div>
+    <div class="rv-msg" id="rvMsg"></div>
+  </div>
+  <div class="bot-bar">
+    <button class="btn-back" onclick="go(3)">&lt; back</button>
+    <button class="btn-shr" onclick="shareLink()">[ share link ]</button>
+    <button class="btn-rst" onclick="go(1)">&lt; start over</button>
+  </div>
+</div>
+
+<script>
+// Ensure go() is defined and exposed before inline handlers are called
+function go(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  var el = document.getElementById('s'+n); if(el) el.classList.add('active');
+  window.scrollTo(0,0);
+}
+window.go = go;
+
+(function(){
+  const IMGS = {
+    cherry_blossom: 'pix%20cherry%20blossom.jpg',
+    flower_garden:  'pix%20flower%20garden.jpg',
+    night_sky:      'pix%20night%20sky.jpg',
+    sunset:         'pix%20sunset.jpg',
+    river_side:     'pix%20river%20side.jpg',
+    mountain:       'pix%20mountain.jpg'
+  };
+
+  const scenes = [
+    {id:'cherry_blossom', name:'Cherry Blossom'},
+    {id:'flower_garden',  name:'Flower Garden'},
+    {id:'night_sky',      name:'Night Sky'},
+    {id:'sunset',         name:'Sunset'},
+    {id:'river_side',     name:'Riverside'},
+    {id:'mountain',       name:'Mountain'}
+  ];
+
+  let chosen = null;
+
+  function showToast(txt){
+    var t = document.getElementById('toast');
+    if(!t){ t = document.createElement('div'); t.id = 'toast'; document.body.appendChild(t); }
+    t.textContent = txt;
+    t.style.opacity = '1';
+    clearTimeout(window._toastTimer);
+    window._toastTimer = setTimeout(()=>{ t.style.opacity = '0'; }, 2200);
+  }
+
+  function renderGrid(){
+    var g = document.getElementById('grid'); if(!g) return;
+    g.innerHTML = scenes.map(sc=>`
+      <div class="card" id="c-${sc.id}" onclick="pick('${sc.id}')">
+        <img class="card-thumb" src="${IMGS[sc.id]}" alt="${sc.name}"/>
+        <div class="card-lbl">${sc.name}</div>
+      </div>`).join("");
+  }
+
+  window.pick = function(id){
+    chosen = id;
+    document.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+    var el = document.getElementById('c-'+id); if(el) el.classList.add('sel');
+    var btn = document.getElementById('btnN'); if(btn) btn.classList.add('on');
+  };
+
+  window.reveal = function(){
+    var to  = document.getElementById('iTo').value.trim()  || 'you';
+    var msg = document.getElementById('iMsg').value.trim() || '...';
+    document.getElementById('rvTo').textContent  = '> for ' + to;
+    document.getElementById('rvMsg').textContent = msg;
+    if(chosen) document.getElementById('scene-img').src = IMGS[chosen];
+    go(4);
+  };
+
+  window.shareLink = async function(){
+    if(!chosen){ showToast('Please pick a scene first'); return; }
+    const to  = document.getElementById('iTo').value.trim()  || 'you';
+    const msg = document.getElementById('iMsg').value.trim() || '...';
+    const url = location.origin + location.pathname + '?scene=' + encodeURIComponent(chosen)
+                + '&to=' + encodeURIComponent(to) + '&msg=' + encodeURIComponent(msg);
+    try{
+      if(navigator.share){ await navigator.share({title: document.title, url}); }
+      else if(navigator.clipboard){ await navigator.clipboard.writeText(url); showToast('Link copied!'); }
+      else { const tmp = document.createElement('input'); tmp.value = url; document.body.appendChild(tmp); tmp.select(); document.execCommand('copy'); document.body.removeChild(tmp); showToast('Link copied!'); }
+    }catch(e){ console.error(e); showToast('Sharing failed'); }
+  };
+
+  function loadSharedFromQuery(){
+    const qp = new URLSearchParams(location.search);
+    const sc = qp.get('scene'); if(!sc) return;
+    chosen = sc;
+    document.getElementById('iTo').value = qp.get('to')||'';
+    document.getElementById('iMsg').value = qp.get('msg')||'';
+    document.getElementById('rvTo').textContent  = '> for ' + (qp.get('to')||'you');
+    document.getElementById('rvMsg').textContent = qp.get('msg')||'...';
+    var el = document.getElementById('c-'+chosen); if(el) el.classList.add('sel');
+    var img = IMGS[chosen] || '';
+    if(img) document.getElementById('scene-img').src = img;
+    go(4);
+  }
+
+  renderGrid();
+  loadSharedFromQuery();
+
+  var _c = document.getElementById('couple-img'); if(_c) _c.src = 'sitting-removebg-preview.png';
+
+})();
+</script>
+
+</body>
+</html>
