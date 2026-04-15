@@ -53,7 +53,7 @@ body::before{content:"";position:fixed;inset:0;background-image:linear-gradient(
 .sky-msg{position:absolute;top:9%;left:50%;transform:translateX(-50%);text-align:center;width:85%;z-index:4;animation:pixelIn .5s steps(8) .6s both}
 @keyframes pixelIn{from{opacity:0;transform:translateX(-50%) translateY(-16px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
 .rv-to{font-family:"Press Start 2P",monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--lav);margin-bottom:14px;text-shadow:2px 2px 0 rgba(0,0,0,.5)}
-.rv-msg{font-family:"VT323",monospace;font-size:26px;color:#fff;line-height:1.6;text-shadow:2px 2px 0 rgba(0,0,0,.8),3px 3px 0 rgba(59,47,74,.5)}
+.rv-msg{font-family:"VT323",monospace;font-size:26px;color:#fff;line-height:1.4;text-shadow:2px 2px 0 rgba(0,0,0,.8),3px 3px 0 rgba(59,47,74,.5);word-wrap:break-word;overflow-wrap:break-word;word-break:break-word;max-width:100%}
 .bot-bar{position:relative;z-index:5;width:100%;padding:24px 20px;text-align:center;background:linear-gradient(transparent,rgba(27,15,40,.92))}
 .btn-shr{background:var(--lav);color:var(--dark);border:none;padding:14px 36px;font-family:"Press Start 2P",monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:block;margin:0 auto 16px;border-right:4px solid #5a3a6a;border-bottom:4px solid #5a3a6a;border-left:4px solid #e8d0f0;border-top:4px solid #e8d0f0;transition:all .08s steps(1)}
 .btn-shr:hover{transform:translate(1px,1px);border-right:3px solid #5a3a6a;border-bottom:3px solid #5a3a6a}
@@ -179,10 +179,13 @@ window.go = go;
 
   window.shareLink = async function(){
     if(!chosen){ showToast('Please pick a scene first'); return; }
-    const to  = document.getElementById('iTo').value.trim()  || 'you';
-    const msg = document.getElementById('iMsg').value.trim() || '...';
+    const to  = document.getElementById('iTo').value.trim();
+    const msg = document.getElementById('iMsg').value.trim();
+    // Use underscores in the URL for better link compatibility on all platforms
+    const safeTo = to.replace(/\s+/g, '_');
+    const safeMsg = msg.replace(/\s+/g, '_');
     const url = location.origin + location.pathname + '?scene=' + encodeURIComponent(chosen)
-                + '&to=' + encodeURIComponent(to) + '&msg=' + encodeURIComponent(msg);
+                + '&to=' + encodeURIComponent(safeTo) + '&msg=' + encodeURIComponent(safeMsg);
     try{
       if(navigator.share){ await navigator.share({title: document.title, url}); }
       else if(navigator.clipboard){ await navigator.clipboard.writeText(url); showToast('Link copied!'); }
@@ -194,10 +197,13 @@ window.go = go;
     const qp = new URLSearchParams(location.search);
     const sc = qp.get('scene'); if(!sc) return;
     chosen = sc;
-    document.getElementById('iTo').value = qp.get('to')||'';
-    document.getElementById('iMsg').value = qp.get('msg')||'';
-    document.getElementById('rvTo').textContent  = '> for ' + (qp.get('to')||'you');
-    document.getElementById('rvMsg').textContent = qp.get('msg')||'...';
+    // Replace underscores back to spaces for a clean display
+    const rawTo = (qp.get('to')||'you').replace(/_/g, ' ');
+    const rawMsg = (qp.get('msg')||'...').replace(/_/g, ' ');
+    document.getElementById('iTo').value = rawTo;
+    document.getElementById('iMsg').value = rawMsg;
+    document.getElementById('rvTo').textContent  = '> for ' + rawTo;
+    document.getElementById('rvMsg').textContent = rawMsg;
     var el = document.getElementById('c-'+chosen); if(el) el.classList.add('sel');
     var img = IMGS[chosen] || '';
     if(img) document.getElementById('scene-img').src = img;
